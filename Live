@@ -3,243 +3,1515 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat with Friends</title>
+    <title>FriendChat - Video & Screen Share Platform</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #ec4899;
+            --success: #10b981;
+            --danger: #ef4444;
+            --dark: #1f2937;
+            --darker: #111827;
+            --light: #f3f4f6;
+            --border: #e5e7eb;
+            --text: #374151;
         }
 
         body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+            color: var(--text);
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* ============ AUTH PAGE ============ */
+        .auth-container {
             display: flex;
             height: 100vh;
-            background-color: #1e1f22;
-            color: #dbdee1;
+            background: linear-gradient(135deg, var(--darker) 0%, #1a1f35 100%);
         }
 
-        /* Sidebar for Friends List */
-        .sidebar {
-            width: 260px;
-            background-color: #2b2d31;
+        .auth-section {
+            flex: 1;
             display: flex;
             flex-direction: column;
-            border-right: 1px solid #1f2023;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .sidebar-header {
-            padding: 20px;
-            font-size: 18px;
-            font-weight: bold;
-            border-bottom: 1px solid #1f2023;
-            color: #fff;
+        .auth-section.left {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
         }
 
-        .friends-list {
-            flex: 1;
-            padding: 10px;
+        .auth-section.left::before {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            top: -100px;
+            right: -100px;
+        }
+
+        .auth-section.left::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            bottom: -50px;
+            left: -50px;
+        }
+
+        .auth-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .auth-logo {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .auth-section.left h1 {
+            font-size: 42px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .auth-section.left p {
+            font-size: 16px;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .auth-form {
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: var(--dark);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text);
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--light);
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .form-toggle {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: var(--text);
+        }
+
+        .form-toggle button {
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: underline;
+        }
+
+        /* ============ ADMIN PAGE ============ */
+        .admin-container {
+            display: flex;
+            height: 100vh;
+            background: var(--darker);
+            color: white;
+        }
+
+        .admin-sidebar {
+            width: 280px;
+            background: var(--dark);
+            padding: 30px 20px;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
             overflow-y: auto;
         }
 
-        .friend-item {
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            margin-bottom: 5px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .friend-item:hover {
-            background-color: #35373c;
-        }
-
-        .status-dot {
-            width: 10px;
-            height: 10px;
-            background-color: #23a55a;
-            border-radius: 5px;
-            margin-right: 10px;
-        }
-
-        /* Main Chat Area */
-        .chat-container {
+        .admin-main {
             flex: 1;
             display: flex;
             flex-direction: column;
-            background-color: #313338;
+        }
+
+        .admin-header {
+            padding: 20px 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-content {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .admin-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        .pending-users {
+            display: grid;
+            gap: 20px;
+        }
+
+        .user-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .user-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .user-info {
+            flex: 1;
+        }
+
+        .user-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .user-email {
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 12px;
+        }
+
+        .btn-approve {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-approve:hover {
+            opacity: 0.9;
+        }
+
+        .btn-reject {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-reject:hover {
+            opacity: 0.9;
+        }
+
+        /* ============ CHAT PAGE ============ */
+        .chat-container {
+            display: flex;
+            height: 100vh;
+            background: var(--darker);
+            gap: 0;
+        }
+
+        .chat-sidebar {
+            width: 320px;
+            background: var(--dark);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            color: white;
         }
 
         .chat-header {
             padding: 20px;
-            background-color: #313338;
-            font-weight: bold;
-            font-size: 18px;
-            color: #fff;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .chat-messages {
+        .chat-user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+        }
+
+        .user-status {
             flex: 1;
-            padding: 20px;
+        }
+
+        .user-name-chat {
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .user-state {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        .btn-logout {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .contacts-section {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+        }
+
+        .contacts-title {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            opacity: 0.5;
+            margin-bottom: 10px;
+        }
+
+        .contact-item {
+            padding: 12px;
+            margin-bottom: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+
+        .contact-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-left-color: var(--primary);
+        }
+
+        .contact-item.active {
+            background: rgba(99, 102, 241, 0.2);
+            border-left-color: var(--primary);
+        }
+
+        .contact-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+
+        .contact-status {
+            font-size: 12px;
+            opacity: 0.6;
+        }
+
+        .chat-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--darker);
+        }
+
+        .chat-top {
+            padding: 20px 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--dark);
+            color: white;
+        }
+
+        .chat-title {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .call-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .control-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+
+        .control-btn:hover {
+            background: var(--primary);
+        }
+
+        .control-btn.active {
+            background: var(--success);
+        }
+
+        .control-btn.inactive {
+            background: var(--danger);
+        }
+
+        .messages-area {
+            flex: 1;
+            padding: 30px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 20px;
         }
 
-        /* Chat Bubbles */
         .message {
-            max-width: 70%;
-            padding: 12px 16px;
-            border-radius: 15px;
-            line-height: 1.4;
-            position: relative;
-        }
-
-        .message.incoming {
-            background-color: #2b2d31;
-            align-self: flex-start;
-            border-bottom-left-radius: 2px;
-        }
-
-        .message.outgoing {
-            background-color: #5865f2;
-            color: white;
-            align-self: flex-end;
-            border-bottom-right-radius: 2px;
-        }
-
-        .message .username {
-            font-size: 12px;
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #b5bac1;
-        }
-        
-        .message.outgoing .username {
-            color: #e3e5e8;
-        }
-
-        /* Chat Input Bar */
-        .chat-input-area {
-            padding: 20px;
-            background-color: #313338;
-        }
-
-        .input-wrapper {
             display: flex;
-            background-color: #383a40;
-            border-radius: 8px;
-            padding: 10px;
+            gap: 12px;
+            animation: messageSlide 0.3s ease-out;
         }
 
-        .input-wrapper input {
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.own {
+            justify-content: flex-end;
+        }
+
+        .message-content {
+            max-width: 60%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            word-wrap: break-word;
+            color: white;
+            background: var(--primary);
+        }
+
+        .message.other .message-content {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .message-input-area {
+            padding: 20px 30px;
+            background: var(--dark);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .message-input-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .message-input {
             flex: 1;
-            background: none;
-            border: none;
-            outline: none;
-            color: #dbdee1;
-            font-size: 16px;
-            padding: 5px 10px;
+            padding: 12px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-size: 14px;
+            font-family: inherit;
         }
 
-        .input-wrapper button {
-            background-color: #5865f2;
+        .message-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .message-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .btn-send {
+            padding: 10px 20px;
+            background: var(--primary);
             color: white;
             border: none;
-            padding: 8px 20px;
-            border-radius: 5px;
-            font-weight: bold;
+            border-radius: 8px;
             cursor: pointer;
-            transition: background 0.2s;
+            font-weight: 600;
+            transition: all 0.3s;
         }
 
-        .input-wrapper button:hover {
-            background-color: #4752c4;
+        .btn-send:hover {
+            background: var(--primary-dark);
+        }
+
+        /* ============ VIDEO MODAL ============ */
+        .video-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            padding: 20px;
+        }
+
+        .video-modal.active {
+            display: flex;
+        }
+
+        .video-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1400px;
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+        .video-box {
+            position: relative;
+            background: black;
+            border-radius: 12px;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+        }
+
+        .video-box video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: #000;
+        }
+
+        .video-label {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .screen-share-box {
+            width: 100%;
+            max-width: 1000px;
+            background: black;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .screen-share-box video {
+            width: 100%;
+            display: block;
+        }
+
+        .video-controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .btn-control {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .btn-control-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-control-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-control-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-control-danger:hover {
+            opacity: 0.9;
+        }
+
+        /* ============ WATCH PARTY ============ */
+        .watch-party-container {
+            display: flex;
+            height: 100vh;
+            background: var(--darker);
+            color: white;
+        }
+
+        .watch-player {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .player-main {
+            flex: 1;
+            background: black;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .player-main video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .player-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .player-controls input[type="range"] {
+            flex: 1;
+            height: 6px;
+            cursor: pointer;
+        }
+
+        .watch-chat {
+            width: 300px;
+            background: var(--dark);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .watch-chat-header {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-weight: 600;
+        }
+
+        .watch-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .watch-message {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        .watch-message-user {
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--primary);
+        }
+
+        .watch-input {
+            padding: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            gap: 8px;
+        }
+
+        .watch-input input {
+            flex: 1;
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            color: white;
+            font-size: 12px;
+        }
+
+        .watch-input input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* ============ UTILITY ============ */
+        .hidden {
+            display: none !important;
+        }
+
+        .error-message {
+            background: var(--danger);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .success-message {
+            background: var(--success);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .auth-container {
+                flex-direction: column;
+            }
+
+            .auth-section.left {
+                display: none;
+            }
+
+            .chat-sidebar {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .video-container {
+                grid-template-columns: 1fr;
+            }
+
+            .watch-party-container {
+                flex-direction: column;
+            }
+
+            .watch-chat {
+                width: 100%;
+                height: 300px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="sidebar">
-        <div class="sidebar-header">My Friends</div>
-        <div class="friends-list">
-            <div class="friend-item">
-                <div class="status-dot"></div>
-                <span>Ahmad</span>
+<!-- ============ AUTH PAGE ============ -->
+<div id="authPage" class="auth-container">
+    <div class="auth-section left">
+        <div class="auth-content">
+            <div class="auth-logo">🎥</div>
+            <h1>FriendChat</h1>
+            <p>Connect with friends through video, audio, and screen sharing. Host watch parties and share moments together.</p>
+        </div>
+    </div>
+    <div class="auth-section" style="background: white; justify-content: center;">
+        <div class="auth-form">
+            <div id="loginForm">
+                <div class="form-title">Welcome Back</div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="loginEmail" placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter password">
+                </div>
+                <button class="btn btn-primary" onclick="login()">Sign In</button>
+                <div class="form-toggle">
+                    Don't have an account? <button onclick="toggleForm()">Create one</button>
+                </div>
             </div>
-            <div class="friend-item">
-                <div class="status-dot"></div>
-                <span>Faisal</span>
-            </div>
-            <div class="friend-item">
-                <div class="status-dot" style="background-color: #80848e;"></div>
-                <span>Sultan (Offline)</span>
+
+            <div id="signupForm" class="hidden">
+                <div class="form-title">Join FriendChat</div>
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="signupName" placeholder="Your name">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="signupEmail" placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="signupPassword" placeholder="Create password">
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <input type="password" id="signupConfirmPassword" placeholder="Confirm password">
+                </div>
+                <button class="btn btn-primary" onclick="signup()">Create Account</button>
+                <div class="form-toggle">
+                    Already have an account? <button onclick="toggleForm()">Sign in</button>
+                </div>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="chat-container">
-        <div class="chat-header"># general-chat</div>
+<!-- ============ ADMIN PAGE ============ -->
+<div id="adminPage" class="admin-container hidden">
+    <div class="admin-sidebar">
+        <div style="margin-bottom: 40px;">
+            <div style="font-size: 24px; margin-bottom: 10px;">⚙️</div>
+            <div style="font-size: 18px; font-weight: 700;">Admin Panel</div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+            <button class="btn btn-secondary" onclick="showAdminSection('pending')" style="justify-content: flex-start;">📋 Pending Users</button>
+            <button class="btn btn-secondary" onclick="showAdminSection('approved')" style="justify-content: flex-start;">✅ Approved Users</button>
+            <button class="btn btn-secondary" onclick="logoutAdmin()" style="justify-content: flex-start; background: var(--danger); color: white;">🚪 Logout</button>
+        </div>
+    </div>
+    <div class="admin-main">
+        <div class="admin-header">
+            <div class="admin-title">User Management</div>
+            <div id="adminUser" style="text-align: right;"></div>
+        </div>
+        <div class="admin-content">
+            <div id="pendingUsersSection">
+                <h2 style="margin-bottom: 20px;">⏳ Pending Approval</h2>
+                <div id="pendingUsersList" class="pending-users">
+                    <p style="opacity: 0.7;">No pending users</p>
+                </div>
+            </div>
+            <div id="approvedUsersSection" class="hidden">
+                <h2 style="margin-bottom: 20px;">✅ Approved Users</h2>
+                <div id="approvedUsersList" class="pending-users">
+                    <p style="opacity: 0.7;">No approved users</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============ CHAT PAGE ============ -->
+<div id="chatPage" class="chat-container hidden">
+    <div class="chat-sidebar">
+        <div class="chat-header">
+            <div class="chat-user-info">
+                <div class="user-avatar" id="userAvatarChat"></div>
+                <div class="user-status">
+                    <div class="user-name-chat" id="chatUserName"></div>
+                    <div class="user-state">Online</div>
+                </div>
+            </div>
+            <button class="btn-logout" onclick="logout()">Logout</button>
+        </div>
+        <div class="contacts-section">
+            <div class="contacts-title">Friends</div>
+            <div id="contactsList"></div>
+        </div>
+    </div>
+
+    <div class="chat-main">
+        <div class="chat-top">
+            <div class="chat-title" id="chatContactName"></div>
+            <div class="call-controls">
+                <button class="control-btn active" id="btnMic" onclick="toggleMic()" title="Microphone">🎤</button>
+                <button class="control-btn active" id="btnVideo" onclick="toggleVideo()" title="Camera">📹</button>
+                <button class="control-btn" id="btnScreen" onclick="shareScreen()" title="Share Screen">🖥️</button>
+                <button class="control-btn" id="btnCall" onclick="startCall()" title="Start Call">☎️</button>
+                <button class="control-btn" id="btnWatchParty" onclick="openWatchParty()" title="Watch Party">🎬</button>
+            </div>
+        </div>
+
+        <div class="messages-area" id="messagesArea"></div>
+
+        <div class="message-input-area">
+            <div class="message-input-group">
+                <input type="text" id="messageInput" class="message-input" placeholder="Type a message..." onkeypress="if(event.key==='Enter') sendMessage()">
+                <button class="btn-send" onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============ VIDEO CALL MODAL ============ -->
+<div id="videoModal" class="video-modal">
+    <button onclick="endCall()" style="position: absolute; top: 20px; right: 20px; background: var(--danger); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600;">End Call ✕</button>
+    
+    <div id="screenShareBox" class="screen-share-box hidden">
+        <video id="screenVideo" autoplay playsinline></video>
+    </div>
+
+    <div class="video-container">
+        <div class="video-box">
+            <video id="localVideo" autoplay muted playsinline></video>
+            <div class="video-label">You</div>
+        </div>
+        <div class="video-box">
+            <video id="remoteVideo" autoplay playsinline></video>
+            <div class="video-label" id="remoteLabel">Friend</div>
+        </div>
+    </div>
+
+    <div class="video-controls">
+        <button class="btn-control btn-control-primary" id="videoCallMicBtn" onclick="toggleCallMic()">🎤 Mic</button>
+        <button class="btn-control btn-control-primary" id="videoCallVideoBtn" onclick="toggleCallVideo()">📹 Camera</button>
+        <button class="btn-control btn-control-primary" onclick="shareScreenInCall()">🖥️ Share Screen</button>
+        <button class="btn-control btn-control-danger" onclick="endCall()">End Call</button>
+    </div>
+</div>
+
+<!-- ============ WATCH PARTY PAGE ============ -->
+<div id="watchPartyPage" class="watch-party-container hidden">
+    <div class="watch-player">
+        <button onclick="closeWatchParty()" style="position: absolute; top: 20px; right: 20px; background: var(--danger); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600;">Close ✕</button>
         
-        <div class="chat-messages" id="chatBox">
-            <div class="message incoming">
-                <div class="username">Ahmad</div>
-                <div>Hey everyone! Welcome to our GitHub chat page.</div>
-            </div>
-            <div class="message outgoing">
-                <div class="username">You</div>
-                <div>Hello! The layout looks complete. Let's test sending a message.</div>
-            </div>
+        <div class="player-main">
+            <video id="watchVideo" controls style="width: 100%; height: 100%;"></video>
         </div>
-
-        <div class="chat-input-area">
-            <div class="input-wrapper">
-                <input type="text" id="messageInput" placeholder="Type a message to your friends..." onkeypress="handleKeyPress(event)">
-                <button onclick="sendMessage()">Send</button>
-            </div>
+        <div class="player-controls">
+            <button class="btn-control btn-control-primary" onclick="playVideo()">▶️ Play</button>
+            <button class="btn-control btn-control-primary" onclick="pauseVideo()">⏸️ Pause</button>
+            <input type="file" id="videoUpload" accept="video/*" style="display: none;" onchange="loadVideo(event)">
+            <button class="btn-control btn-control-primary" onclick="document.getElementById('videoUpload').click()">📁 Upload Video</button>
         </div>
     </div>
 
-    <script>
-        function sendMessage() {
-            const input = document.getElementById('messageInput');
-            const chatBox = document.getElementById('chatBox');
-            
-            if (input.value.trim() !== "") {
-                // Create a new message container
-                const messageDiv = document.createElement('div');
-                messageDiv.classList.add('message', 'outgoing');
-                
-                // Add username
-                const usernameDiv = document.createElement('div');
-                usernameDiv.classList.add('username');
-                usernameDiv.innerText = 'You';
-                
-                // Add text content
-                const textDiv = document.createElement('div');
-                textDiv.innerText = input.value;
-                
-                // Put it together
-                messageDiv.appendChild(usernameDiv);
-                messageDiv.appendChild(textDiv);
-                chatBox.appendChild(messageDiv);
-                
-                // Clear input field and scroll to bottom
-                input.value = "";
-                chatBox.scrollTop = chatBox.scrollHeight;
-            }
+    <div class="watch-chat">
+        <div class="watch-chat-header">👥 Watch Together</div>
+        <div class="watch-messages" id="watchMessages"></div>
+        <div class="watch-input">
+            <input type="text" id="watchMessageInput" placeholder="Chat..." onkeypress="if(event.key==='Enter') sendWatchMessage()">
+            <button class="btn-control btn-control-primary" onclick="sendWatchMessage()" style="width: auto;">Send</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ============ STATE MANAGEMENT ============
+    const state = {
+        currentUser: null,
+        selectedContact: null,
+        messages: {},
+        users: [],
+        isAdmin: false,
+        localStream: null,
+        remoteStream: null,
+        micEnabled: true,
+        videoEnabled: true,
+        callActive: false,
+        watchPartyMessages: []
+    };
+
+    // Initialize app
+    window.addEventListener('DOMContentLoaded', () => {
+        loadFromStorage();
+        setupEventListeners();
+    });
+
+    // ============ STORAGE MANAGEMENT ============
+    function saveToStorage() {
+        localStorage.setItem('friendchat_users', JSON.stringify(state.users));
+        localStorage.setItem('friendchat_messages', JSON.stringify(state.messages));
+    }
+
+    function loadFromStorage() {
+        const users = localStorage.getItem('friendchat_users');
+        const messages = localStorage.getItem('friendchat_messages');
+        
+        if (users) state.users = JSON.parse(users);
+        if (messages) state.messages = JSON.parse(messages);
+
+        const currentUser = localStorage.getItem('friendchat_currentUser');
+        if (currentUser) {
+            state.currentUser = JSON.parse(currentUser);
+            goToChat();
+        }
+    }
+
+    function setupEventListeners() {
+        document.getElementById('messageInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+    }
+
+    // ============ AUTH FUNCTIONS ============
+    function toggleForm() {
+        document.getElementById('loginForm').classList.toggle('hidden');
+        document.getElementById('signupForm').classList.toggle('hidden');
+    }
+
+    function signup() {
+        const name = document.getElementById('signupName').value.trim();
+        const email = document.getElementById('signupEmail').value.trim();
+        const password = document.getElementById('signupPassword').value;
+        const confirmPassword = document.getElementById('signupConfirmPassword').value;
+
+        if (!name || !email || !password) {
+            alert('Please fill all fields');
+            return;
         }
 
-        // Allow pressing "Enter" to send a message
-        function handleKeyPress(event) {
-            if (event.key === 'Enter') {
-                sendMessage();
-            }
+        if (password !== confirmPassword) {
+            alert('Passwords do not match');
+            return;
         }
-    </script>
+
+        if (state.users.some(u => u.email === email)) {
+            alert('Email already registered');
+            return;
+        }
+
+        const newUser = {
+            id: Date.now(),
+            name,
+            email,
+            password, // In production, this should be hashed
+            approved: false,
+            avatar: name.charAt(0).toUpperCase()
+        };
+
+        state.users.push(newUser);
+        saveToStorage();
+
+        alert('Account created! Waiting for admin approval.');
+        toggleForm();
+        document.getElementById('signupName').value = '';
+        document.getElementById('signupEmail').value = '';
+        document.getElementById('signupPassword').value = '';
+        document.getElementById('signupConfirmPassword').value = '';
+    }
+
+    function login() {
+        const email = document.getElementById('loginEmail').value.trim();
+        const password = document.getElementById('loginPassword').value;
+
+        const user = state.users.find(u => u.email === email && u.password === password);
+
+        if (!user) {
+            alert('Invalid email or password');
+            return;
+        }
+
+        if (!user.approved && email !== 'admin@friendchat.com') {
+            alert('Your account is pending admin approval');
+            return;
+        }
+
+        // Check if admin
+        if (email === 'admin@friendchat.com') {
+            state.isAdmin = true;
+            goToAdmin();
+        } else {
+            state.currentUser = user;
+            localStorage.setItem('friendchat_currentUser', JSON.stringify(user));
+            goToChat();
+        }
+
+        document.getElementById('loginEmail').value = '';
+        document.getElementById('loginPassword').value = '';
+    }
+
+    // ============ ADMIN PANEL ============
+    function goToAdmin() {
+        document.getElementById('authPage').classList.add('hidden');
+        document.getElementById('adminPage').classList.remove('hidden');
+        document.getElementById('adminUser').textContent = 'Admin Panel';
+        updateAdminPanel();
+    }
+
+    function updateAdminPanel() {
+        const pendingUsers = state.users.filter(u => !u.approved);
+        const approvedUsers = state.users.filter(u => u.approved);
+
+        document.getElementById('pendingUsersList').innerHTML = pendingUsers.length 
+            ? pendingUsers.map(user => `
+                <div class="user-card">
+                    <div class="user-info">
+                        <div class="user-name">${user.name}</div>
+                        <div class="user-email">${user.email}</div>
+                    </div>
+                    <div class="user-actions">
+                        <button class="btn-small btn-approve" onclick="approveUser(${user.id})">Approve</button>
+                        <button class="btn-small btn-reject" onclick="rejectUser(${user.id})">Reject</button>
+                    </div>
+                </div>
+            `).join('')
+            : '<p style="opacity: 0.7;">No pending users</p>';
+
+        document.getElementById('approvedUsersList').innerHTML = approvedUsers.length
+            ? approvedUsers.map(user => `
+                <div class="user-card">
+                    <div class="user-info">
+                        <div class="user-name">${user.name}</div>
+                        <div class="user-email">${user.email}</div>
+                    </div>
+                    <div style="color: var(--success);">✓ Approved</div>
+                </div>
+            `).join('')
+            : '<p style="opacity: 0.7;">No approved users</p>';
+    }
+
+    function approveUser(userId) {
+        const user = state.users.find(u => u.id === userId);
+        if (user) {
+            user.approved = true;
+            saveToStorage();
+            updateAdminPanel();
+            alert(`User ${user.name} has been approved!`);
+        }
+    }
+
+    function rejectUser(userId) {
+        state.users = state.users.filter(u => u.id !== userId);
+        saveToStorage();
+        updateAdminPanel();
+        alert('User has been rejected and removed.');
+    }
+
+    function showAdminSection(section) {
+        document.getElementById('pendingUsersSection').classList.toggle('hidden', section !== 'pending');
+        document.getElementById('approvedUsersSection').classList.toggle('hidden', section !== 'approved');
+    }
+
+    function logoutAdmin() {
+        state.isAdmin = false;
+        document.getElementById('authPage').classList.remove('hidden');
+        document.getElementById('adminPage').classList.add('hidden');
+        document.getElementById('loginEmail').value = '';
+        document.getElementById('loginPassword').value = '';
+    }
+
+    // ============ CHAT PAGE ============
+    function goToChat() {
+        document.getElementById('authPage').classList.add('hidden');
+        document.getElementById('chatPage').classList.remove('hidden');
+        
+        document.getElementById('userAvatarChat').textContent = state.currentUser.avatar;
+        document.getElementById('chatUserName').textContent = state.currentUser.name;
+        
+        updateContactsList();
+        if (state.users.some(u => u.approved && u.id !== state.currentUser.id)) {
+            selectContact(state.users.find(u => u.approved && u.id !== state.currentUser.id));
+        }
+    }
+
+    function updateContactsList() {
+        const contacts = state.users.filter(u => u.approved && u.id !== state.currentUser.id);
+        document.getElementById('contactsList').innerHTML = contacts.map(contact => `
+            <div class="contact-item ${state.selectedContact?.id === contact.id ? 'active' : ''}" onclick="selectContact({id: ${contact.id}, name: '${contact.name}', avatar: '${contact.avatar}'})">
+                <div class="contact-name">${contact.name}</div>
+                <div class="contact-status">Online</div>
+            </div>
+        `).join('');
+    }
+
+    function selectContact(contact) {
+        state.selectedContact = contact;
+        document.getElementById('chatContactName').textContent = contact.name;
+        updateContactsList();
+        loadMessages();
+    }
+
+    function loadMessages() {
+        if (!state.selectedContact) return;
+        
+        const key = `chat_${state.currentUser.id}_${state.selectedContact.id}`;
+        const messages = state.messages[key] || [];
+        
+        const messagesHtml = messages.map(msg => `
+            <div class="message ${msg.sender === state.currentUser.id ? 'own' : 'other'}">
+                <div class="message-content">${msg.text}</div>
+            </div>
+        `).join('');
+
+        document.getElementById('messagesArea').innerHTML = messagesHtml;
+        document.getElementById('messagesArea').scrollTop = document.getElementById('messagesArea').scrollHeight;
+    }
+
+    function sendMessage() {
+        const input = document.getElementById('messageInput');
+        const text = input.value.trim();
+
+        if (!text || !state.selectedContact) return;
+
+        const key = `chat_${state.currentUser.id}_${state.selectedContact.id}`;
+        if (!state.messages[key]) state.messages[key] = [];
+
+        state.messages[key].push({
+            sender: state.currentUser.id,
+            text,
+            timestamp: new Date().getTime()
+        });
+
+        saveToStorage();
+        input.value = '';
+        loadMessages();
+    }
+
+    // ============ CALL FUNCTIONS ============
+    function startCall() {
+        if (!state.selectedContact) {
+            alert('Select a contact first');
+            return;
+        }
+
+        document.getElementById('videoModal').classList.add('active');
+        state.callActive = true;
+
+        // Request camera and microphone
+        navigator.mediaDevices.getUserMedia({
+            audio: true,
+            video: true
+        })
+        .then(stream => {
+            state.localStream = stream;
+            document.getElementById('localVideo').srcObject = stream;
+            document.getElementById('remoteVideo').srcObject = new MediaStream();
+        })
+        .catch(err => {
+            alert('Camera/Microphone access denied: ' + err.message);
+            endCall();
+        });
+    }
+
+    function endCall() {
+        document.getElementById('videoModal').classList.remove('active');
+        
+        if (state.localStream) {
+            state.localStream.getTracks().forEach(track => track.stop());
+            state.localStream = null;
+        }
+        
+        state.callActive = false;
+        state.micEnabled = true;
+        state.videoEnabled = true;
+        
+        document.getElementById('btnMic').classList.add('active');
+        document.getElementById('btnVideo').classList.add('active');
+    }
+
+    function toggleMic() {
+        if (!state.localStream && !state.callActive) {
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(stream => {
+                    state.localStream = stream;
+                    state.micEnabled = true;
+                    document.getElementById('btnMic').classList.add('active');
+                })
+                .catch(err => alert('Microphone access denied'));
+            return;
+        }
+
+        if (state.localStream) {
+            state.micEnabled = !state.micEnabled;
+            state.localStream.getAudioTracks().forEach(track => {
+                track.enabled = state.micEnabled;
+            });
+            document.getElementById('btnMic').classList.toggle('active');
+        }
+    }
+
+    function toggleVideo() {
+        if (!state.callActive) {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    state.localStream = stream;
+                    state.videoEnabled = true;
+                    document.getElementById('btnVideo').classList.add('active');
+                })
+                .catch(err => alert('Camera access denied'));
+            return;
+        }
+
+        if (state.localStream) {
+            state.videoEnabled = !state.videoEnabled;
+            state.localStream.getVideoTracks().forEach(track => {
+                track.enabled = state.videoEnabled;
+            });
+            document.getElementById('btnVideo').classList.toggle('active');
+        }
+    }
+
+    function toggleCallMic() {
+        if (state.localStream) {
+            state.micEnabled = !state.micEnabled;
+            state.localStream.getAudioTracks().forEach(track => {
+                track.enabled = state.micEnabled;
+            });
+            document.getElementById('videoCallMicBtn').classList.toggle('inactive');
+        }
+    }
+
+    function toggleCallVideo() {
+        if (state.localStream) {
+            state.videoEnabled = !state.videoEnabled;
+            state.localStream.getVideoTracks().forEach(track => {
+                track.enabled = state.videoEnabled;
+            });
+            document.getElementById('videoCallVideoBtn').classList.toggle('inactive');
+        }
+    }
+
+    function shareScreen() {
+        if (!state.callActive) {
+            alert('Start a call first');
+            return;
+        }
+
+        navigator.mediaDevices.getDisplayMedia({
+            video: true,
+            audio: false
+        })
+        .then(stream => {
+            document.getElementById('screenShareBox').classList.remove('hidden');
+            document.getElementById('screenVideo').srcObject = stream;
+        })
+        .catch(err => {
+            if (err.name !== 'NotAllowedError') {
+                alert('Screen sharing failed: ' + err.message);
+            }
+        });
+    }
+
+    function shareScreenInCall() {
+        shareScreen();
+    }
+
+    // ============ WATCH PARTY ============
+    function openWatchParty() {
+        if (!state.selectedContact) {
+            alert('Select a contact first');
+            return;
+        }
+        document.getElementById('watchPartyPage').classList.remove('hidden');
+        document.getElementById('chatPage').classList.add('hidden');
+    }
+
+    function closeWatchParty() {
+        document.getElementById('watchPartyPage').classList.add('hidden');
+        document.getElementById('chatPage').classList.remove('hidden');
+    }
+
+    function loadVideo(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const url = URL.createObjectURL(file);
+            document.getElementById('watchVideo').src = url;
+        }
+    }
+
+    function playVideo() {
+        document.getElementById('watchVideo').play();
+    }
+
+    function pauseVideo() {
+        document.getElementById('watchVideo').pause();
+    }
+
+    function sendWatchMessage() {
+        const input = document.getElementById('watchMessageInput');
+        const text = input.value.trim();
+
+        if (!text) return;
+
+        state.watchPartyMessages.push({
+            user: state.currentUser.name,
+            text,
+            timestamp: new Date().getTime()
+        });
+
+        updateWatchMessages();
+        input.value = '';
+    }
+
+    function updateWatchMessages() {
+        document.getElementById('watchMessages').innerHTML = state.watchPartyMessages
+            .slice(-50)
+            .map(msg => `
+                <div class="watch-message">
+                    <div class="watch-message-user">${msg.user}</div>
+                    <div>${msg.text}</div>
+                </div>
+            `).join('');
+        document.getElementById('watchMessages').scrollTop = document.getElementById('watchMessages').scrollHeight;
+    }
+
+    // ============ LOGOUT ============
+    function logout() {
+        state.currentUser = null;
+        state.selectedContact = null;
+        localStorage.removeItem('friendchat_currentUser');
+        
+        if (state.localStream) {
+            state.localStream.getTracks().forEach(track => track.stop());
+        }
+
+        document.getElementById('chatPage').classList.add('hidden');
+        document.getElementById('authPage').classList.remove('hidden');
+        document.getElementById('loginEmail').value = '';
+        document.getElementById('loginPassword').value = '';
+    }
+
+    // Demo: Create default admin account if it doesn't exist
+    if (!state.users.some(u => u.email === 'admin@friendchat.com')) {
+        state.users.push({
+            id: 1,
+            name: 'Admin',
+            email: 'admin@friendchat.com',
+            password: 'admin123',
+            approved: true,
+            avatar: 'A'
+        });
+        saveToStorage();
+    }
+</script>
+
 </body>
 </html>
