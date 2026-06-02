@@ -818,6 +818,318 @@
             background: rgba(255, 255, 255, 0.3);
         }
 
+        /* ============ PROFILE MODAL ============ */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideIn 0.3s ease-out;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--text);
+        }
+
+        .modal-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: var(--dark);
+        }
+
+        .profile-avatar-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-avatar-display {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: white;
+            font-weight: 700;
+            margin: 0 auto 15px;
+        }
+
+        .avatar-input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .avatar-input-group input {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+        }
+
+        .avatar-input-group button {
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* ============ INVITE MODAL ============ */
+        .invite-container {
+            margin-top: 20px;
+        }
+
+        .invite-option {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: var(--light);
+            border-radius: 8px;
+        }
+
+        .invite-option h3 {
+            margin-bottom: 10px;
+            color: var(--primary);
+            font-size: 16px;
+        }
+
+        .invite-option-content {
+            display: flex;
+            gap: 10px;
+        }
+
+        .invite-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .invite-button {
+            padding: 10px 20px;
+            background: var(--success);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .invite-button:hover {
+            opacity: 0.9;
+        }
+
+        .invite-code {
+            background: white;
+            padding: 12px;
+            border-radius: 6px;
+            border: 2px dashed var(--primary);
+            text-align: center;
+            margin-top: 10px;
+            word-break: break-all;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .copy-btn {
+            margin-top: 10px;
+            padding: 8px 16px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 600;
+        }
+
+        /* ============ CALL INVITATION ============ */
+        .call-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            z-index: 3000;
+            min-width: 350px;
+            animation: slideInRight 0.3s ease-out;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .call-notification-header {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .call-notification-message {
+            color: var(--text);
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .call-notification-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .call-notification-actions button {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .call-accept {
+            background: var(--success);
+            color: white;
+        }
+
+        .call-accept:hover {
+            opacity: 0.9;
+        }
+
+        .call-decline {
+            background: var(--danger);
+            color: white;
+        }
+
+        .call-decline:hover {
+            opacity: 0.9;
+        }
+
+        /* ============ FRIENDS REQUEST ============ */
+        .friends-request-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: var(--light);
+            border-radius: 8px;
+        }
+
+        .friends-request-title {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .friend-request-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            border-left: 3px solid var(--primary);
+        }
+
+        .friend-request-name {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .friend-request-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .friend-request-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .friend-accept-btn {
+            background: var(--success);
+            color: white;
+        }
+
+        .friend-reject-btn {
+            background: var(--danger);
+            color: white;
+        }
+
+        /* ============ SIDEBAR BUTTONS ============ */
+        .sidebar-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-btn {
+            padding: 10px;
+            background: rgba(99, 102, 241, 0.2);
+            color: white;
+            border: 1px solid var(--primary);
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.3s;
+        }
+
+        .sidebar-btn:hover {
+            background: var(--primary);
+        }
+
         @media (max-width: 768px) {
             .auth-container {
                 flex-direction: column;
@@ -843,6 +1155,16 @@
             .watch-chat {
                 width: 100%;
                 height: 300px;
+            }
+
+            .modal-content {
+                padding: 30px 20px;
+            }
+
+            .call-notification {
+                right: 10px;
+                left: 10px;
+                min-width: auto;
             }
         }
     </style>
@@ -952,8 +1274,13 @@
             <button class="btn-logout" onclick="logout()">Logout</button>
         </div>
         <div class="contacts-section">
+            <div id="friendRequests"></div>
             <div class="contacts-title">Friends</div>
             <div id="contactsList"></div>
+        </div>
+        <div class="sidebar-buttons">
+            <button class="sidebar-btn" onclick="openProfileModal()">👤 Profile</button>
+            <button class="sidebar-btn" onclick="openInviteModal()">➕ Invite Friends</button>
         </div>
     </div>
 
@@ -1033,6 +1360,104 @@
     </div>
 </div>
 
+<!-- ============ PROFILE MODAL ============ -->
+<div id="profileModal" class="modal-overlay">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeProfileModal()">✕</button>
+        <div class="modal-title">Edit Profile</div>
+        
+        <div class="profile-avatar-section">
+            <div class="profile-avatar-display" id="profileAvatarDisplay"></div>
+            <div class="avatar-input-group">
+                <input type="text" id="avatarInput" placeholder="Enter emoji or letter" maxlength="2">
+                <button onclick="updateAvatar()">Update</button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="profileName" placeholder="Your name">
+        </div>
+
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="profileEmail" placeholder="your@email.com" disabled>
+        </div>
+
+        <div class="form-group">
+            <label>Bio</label>
+            <textarea id="profileBio" placeholder="Tell us about yourself" style="width: 100%; padding: 10px; border: 2px solid var(--border); border-radius: 8px; font-family: inherit; min-height: 80px; resize: vertical;"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Status</label>
+            <select id="profileStatus" style="width: 100%; padding: 10px; border: 2px solid var(--border); border-radius: 8px; font-family: inherit;">
+                <option value="Online">🟢 Online</option>
+                <option value="Away">🟡 Away</option>
+                <option value="Do Not Disturb">🔴 Do Not Disturb</option>
+                <option value="Offline">⚫ Offline</option>
+            </select>
+        </div>
+
+        <button class="btn btn-primary" onclick="saveProfile()" style="width: 100%; margin-top: 20px;">Save Changes</button>
+    </div>
+</div>
+
+<!-- ============ INVITE FRIENDS MODAL ============ -->
+<div id="inviteModal" class="modal-overlay">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeInviteModal()">✕</button>
+        <div class="modal-title">Invite Friends</div>
+        
+        <div class="invite-container">
+            <!-- Search and Add Friends -->
+            <div class="invite-option">
+                <h3>🔍 Search & Add Friends</h3>
+                <div class="invite-option-content">
+                    <input type="text" id="searchUserInput" class="invite-input" placeholder="Enter email or name">
+                    <button class="invite-button" onclick="searchAndAddFriend()">Add</button>
+                </div>
+                <div id="searchResults" style="margin-top: 10px;"></div>
+            </div>
+
+            <!-- Invite Code -->
+            <div class="invite-option">
+                <h3>📋 Your Invite Code</h3>
+                <p style="font-size: 13px; color: var(--text); margin-bottom: 10px;">Share this code with friends to invite them</p>
+                <div class="invite-code" id="inviteCode"></div>
+                <button class="copy-btn" onclick="copyInviteCode()">📋 Copy Code</button>
+            </div>
+
+            <!-- Email Invitation -->
+            <div class="invite-option">
+                <h3>✉️ Send Email Invitation</h3>
+                <div class="invite-option-content">
+                    <input type="email" id="inviteEmailInput" class="invite-input" placeholder="friend@example.com">
+                    <button class="invite-button" onclick="sendEmailInvite()">Send</button>
+                </div>
+            </div>
+
+            <!-- Pending Invitations -->
+            <div class="invite-option">
+                <h3>⏳ Pending Requests</h3>
+                <div id="pendingRequests" style="font-size: 13px; color: var(--text);">
+                    <p>No pending requests</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============ CALL INVITATION NOTIFICATION ============ -->
+<div id="callNotification" class="call-notification hidden">
+    <div class="call-notification-header" id="callNotificationHeader"></div>
+    <div class="call-notification-message" id="callNotificationMessage"></div>
+    <div class="call-notification-actions">
+        <button class="call-accept" onclick="acceptCall()">✓ Accept</button>
+        <button class="call-decline" onclick="declineCall()">✕ Decline</button>
+    </div>
+</div>
+
 <script>
     // ============ STATE MANAGEMENT ============
     const state = {
@@ -1046,7 +1471,11 @@
         micEnabled: true,
         videoEnabled: true,
         callActive: false,
-        watchPartyMessages: []
+        watchPartyMessages: [],
+        friendRequests: [],
+        sentInvites: [],
+        pendingCalls: {},
+        userProfiles: {}
     };
 
     // Initialize app
@@ -1059,14 +1488,20 @@
     function saveToStorage() {
         localStorage.setItem('friendchat_users', JSON.stringify(state.users));
         localStorage.setItem('friendchat_messages', JSON.stringify(state.messages));
+        localStorage.setItem('friendchat_friendRequests', JSON.stringify(state.friendRequests));
+        localStorage.setItem('friendchat_userProfiles', JSON.stringify(state.userProfiles));
     }
 
     function loadFromStorage() {
         const users = localStorage.getItem('friendchat_users');
         const messages = localStorage.getItem('friendchat_messages');
+        const friendRequests = localStorage.getItem('friendchat_friendRequests');
+        const userProfiles = localStorage.getItem('friendchat_userProfiles');
         
         if (users) state.users = JSON.parse(users);
         if (messages) state.messages = JSON.parse(messages);
+        if (friendRequests) state.friendRequests = JSON.parse(friendRequests);
+        if (userProfiles) state.userProfiles = JSON.parse(userProfiles);
 
         const currentUser = localStorage.getItem('friendchat_currentUser');
         if (currentUser) {
@@ -1252,6 +1687,7 @@
         `).join('');
     }
 
+    // ============ MESSAGE FUNCTIONS ============
     function selectContact(contact) {
         state.selectedContact = contact;
         document.getElementById('chatContactName').textContent = contact.name;
@@ -1295,31 +1731,19 @@
         loadMessages();
     }
 
-    // ============ CALL FUNCTIONS ============
-    function startCall() {
-        if (!state.selectedContact) {
-            alert('Select a contact first');
-            return;
-        }
-
-        document.getElementById('videoModal').classList.add('active');
-        state.callActive = true;
-
-        // Request camera and microphone
-        navigator.mediaDevices.getUserMedia({
-            audio: true,
-            video: true
-        })
-        .then(stream => {
-            state.localStream = stream;
-            document.getElementById('localVideo').srcObject = stream;
-            document.getElementById('remoteVideo').srcObject = new MediaStream();
-        })
-        .catch(err => {
-            alert('Camera/Microphone access denied: ' + err.message);
-            endCall();
+    // Demo: Create default admin account if it doesn't exist
+    if (!state.users.some(u => u.email === 'admin@friendchat.com')) {
+        state.users.push({
+            id: 1,
+            name: 'Admin',
+            email: 'admin@friendchat.com',
+            password: 'admin123',
+            approved: true,
+            avatar: 'A'
         });
+        saveToStorage();
     }
+
 
     function endCall() {
         document.getElementById('videoModal').classList.remove('active');
@@ -1499,17 +1923,381 @@
         document.getElementById('loginPassword').value = '';
     }
 
-    // Demo: Create default admin account if it doesn't exist
-    if (!state.users.some(u => u.email === 'admin@friendchat.com')) {
-        state.users.push({
-            id: 1,
-            name: 'Admin',
-            email: 'admin@friendchat.com',
-            password: 'admin123',
-            approved: true,
-            avatar: 'A'
-        });
+    // ============ PROFILE FUNCTIONS ============
+    function openProfileModal() {
+        const profile = state.userProfiles[state.currentUser.id] || {
+            bio: '',
+            status: 'Online',
+            avatar: state.currentUser.avatar
+        };
+
+        document.getElementById('profileAvatarDisplay').textContent = profile.avatar;
+        document.getElementById('avatarInput').value = '';
+        document.getElementById('profileName').value = state.currentUser.name;
+        document.getElementById('profileEmail').value = state.currentUser.email;
+        document.getElementById('profileBio').value = profile.bio;
+        document.getElementById('profileStatus').value = profile.status;
+
+        document.getElementById('profileModal').classList.add('active');
+    }
+
+    function closeProfileModal() {
+        document.getElementById('profileModal').classList.remove('active');
+    }
+
+    function updateAvatar() {
+        const input = document.getElementById('avatarInput').value.trim();
+        if (input) {
+            const avatar = input.charAt(0).toUpperCase();
+            document.getElementById('profileAvatarDisplay').textContent = avatar;
+            document.getElementById('avatarInput').value = '';
+        }
+    }
+
+    function saveProfile() {
+        const name = document.getElementById('profileName').value.trim();
+        const bio = document.getElementById('profileBio').value.trim();
+        const status = document.getElementById('profileStatus').value;
+        const avatar = document.getElementById('profileAvatarDisplay').textContent;
+
+        if (!name) {
+            alert('Name cannot be empty');
+            return;
+        }
+
+        // Update user
+        state.currentUser.name = name;
+        state.currentUser.avatar = avatar;
+        
+        // Save profile
+        state.userProfiles[state.currentUser.id] = {
+            bio,
+            status,
+            avatar
+        };
+
+        // Update user in users list
+        const user = state.users.find(u => u.id === state.currentUser.id);
+        if (user) {
+            user.name = name;
+            user.avatar = avatar;
+        }
+
         saveToStorage();
+        localStorage.setItem('friendchat_currentUser', JSON.stringify(state.currentUser));
+        
+        document.getElementById('userAvatarChat').textContent = avatar;
+        document.getElementById('chatUserName').textContent = name;
+        updateContactsList();
+
+        alert('Profile updated successfully!');
+        closeProfileModal();
+    }
+
+    // ============ INVITE FUNCTIONS ============
+    function openInviteModal() {
+        document.getElementById('inviteCode').textContent = generateInviteCode();
+        updatePendingRequests();
+        document.getElementById('inviteModal').classList.add('active');
+    }
+
+    function closeInviteModal() {
+        document.getElementById('inviteModal').classList.remove('active');
+    }
+
+    function generateInviteCode() {
+        return 'FC' + Math.random().toString(36).substr(2, 9).toUpperCase();
+    }
+
+    function copyInviteCode() {
+        const code = document.getElementById('inviteCode').textContent;
+        navigator.clipboard.writeText(code).then(() => {
+            alert('Invite code copied! Share it with friends.');
+        });
+    }
+
+    function searchAndAddFriend() {
+        const search = document.getElementById('searchUserInput').value.toLowerCase().trim();
+        if (!search) {
+            alert('Enter an email or name');
+            return;
+        }
+
+        const results = state.users.filter(u => 
+            u.id !== state.currentUser.id && 
+            (u.email.toLowerCase().includes(search) || u.name.toLowerCase().includes(search)) &&
+            u.approved
+        );
+
+        const resultsHtml = results.length 
+            ? results.map(user => `
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background: white; border-radius: 6px; margin-bottom: 8px; border-left: 3px solid var(--primary);">
+                    <div>
+                        <div style="font-weight: 600; color: var(--dark);">${user.name}</div>
+                        <div style="font-size: 12px; color: var(--text);">${user.email}</div>
+                    </div>
+                    <button class="invite-button" onclick="sendFriendRequest(${user.id}, '${user.name}')">Add</button>
+                </div>
+            `).join('')
+            : '<p style="color: var(--text); font-size: 14px;">No users found</p>';
+
+        document.getElementById('searchResults').innerHTML = resultsHtml;
+    }
+
+    function sendFriendRequest(userId, userName) {
+        if (state.friendRequests.some(req => req.to === userId)) {
+            alert('Request already sent to ' + userName);
+            return;
+        }
+
+        state.friendRequests.push({
+            from: state.currentUser.id,
+            to: userId,
+            fromName: state.currentUser.name,
+            status: 'pending'
+        });
+
+        saveToStorage();
+        alert('Friend request sent to ' + userName);
+        document.getElementById('searchUserInput').value = '';
+        document.getElementById('searchResults').innerHTML = '';
+    }
+
+    function sendEmailInvite() {
+        const email = document.getElementById('inviteEmailInput').value.trim();
+        if (!email) {
+            alert('Enter a valid email address');
+            return;
+        }
+
+        const inviteCode = document.getElementById('inviteCode').textContent;
+        
+        state.sentInvites.push({
+            email,
+            code: inviteCode,
+            from: state.currentUser.name,
+            sent: new Date().getTime()
+        });
+
+        saveToStorage();
+        alert(`Invitation sent to ${email}!\n\nInvite Code: ${inviteCode}`);
+        document.getElementById('inviteEmailInput').value = '';
+    }
+
+    function updatePendingRequests() {
+        const incoming = state.friendRequests.filter(req => 
+            req.to === state.currentUser.id && req.status === 'pending'
+        );
+
+        const requestsHtml = incoming.length
+            ? incoming.map(req => `
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background: white; border-radius: 6px; margin-bottom: 8px;">
+                    <div style="font-weight: 600; color: var(--dark);">${req.fromName}</div>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="friend-accept-btn friend-request-btn" onclick="acceptFriendRequest(${req.from})">✓</button>
+                        <button class="friend-reject-btn friend-request-btn" onclick="rejectFriendRequest(${req.from})">✕</button>
+                    </div>
+                </div>
+            `).join('')
+            : '<p style="font-size: 13px; color: var(--text);">No pending requests</p>';
+
+        document.getElementById('pendingRequests').innerHTML = requestsHtml;
+    }
+
+    function updateFriendRequests() {
+        const incoming = state.friendRequests.filter(req => 
+            req.to === state.currentUser.id && req.status === 'pending'
+        );
+
+        if (incoming.length === 0) {
+            document.getElementById('friendRequests').innerHTML = '';
+            return;
+        }
+
+        document.getElementById('friendRequests').innerHTML = `
+            <div class="friends-request-section">
+                <div class="friends-request-title">🔔 Friend Requests</div>
+                ${incoming.map(req => `
+                    <div class="friend-request-item">
+                        <span class="friend-request-name">${req.fromName}</span>
+                        <div class="friend-request-actions">
+                            <button class="friend-request-btn friend-accept-btn" onclick="acceptFriendRequest(${req.from})">✓</button>
+                            <button class="friend-request-btn friend-reject-btn" onclick="rejectFriendRequest(${req.from})">✕</button>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    }
+
+    function acceptFriendRequest(fromId) {
+        const reqIndex = state.friendRequests.findIndex(req => 
+            req.from === fromId && req.to === state.currentUser.id
+        );
+
+        if (reqIndex !== -1) {
+            state.friendRequests[reqIndex].status = 'accepted';
+            saveToStorage();
+            updateFriendRequests();
+            updateContactsList();
+            alert('Friend request accepted!');
+        }
+    }
+
+    function rejectFriendRequest(fromId) {
+        state.friendRequests = state.friendRequests.filter(req => 
+            !(req.from === fromId && req.to === state.currentUser.id)
+        );
+        saveToStorage();
+        updateFriendRequests();
+        alert('Friend request rejected!');
+    }
+
+    // ============ CALL FUNCTIONS - UPDATED ============
+    function startCall() {
+        if (!state.selectedContact) {
+            alert('Select a contact first');
+            return;
+        }
+
+        // Check if they are friends
+        const isFriend = state.friendRequests.some(req => 
+            ((req.from === state.currentUser.id && req.to === state.selectedContact.id) ||
+             (req.from === state.selectedContact.id && req.to === state.currentUser.id)) &&
+            req.status === 'accepted'
+        );
+
+        if (!isFriend) {
+            alert('You can only call friends. Send a friend request first.');
+            return;
+        }
+
+        // Show incoming call notification on other user
+        state.pendingCalls[state.selectedContact.id] = {
+            from: state.currentUser.id,
+            fromName: state.currentUser.name
+        };
+
+        // Open video modal
+        document.getElementById('videoModal').classList.add('active');
+        state.callActive = true;
+
+        // Request camera and microphone
+        navigator.mediaDevices.getUserMedia({
+            audio: true,
+            video: true
+        })
+        .then(stream => {
+            state.localStream = stream;
+            document.getElementById('localVideo').srcObject = stream;
+            document.getElementById('remoteVideo').srcObject = new MediaStream();
+            document.getElementById('remoteLabel').textContent = state.selectedContact.name;
+        })
+        .catch(err => {
+            alert('Camera/Microphone access denied: ' + err.message);
+            endCall();
+        });
+    }
+
+    function initiateCall(contactId) {
+        const contact = state.users.find(u => u.id === contactId);
+        if (contact) {
+            selectContact({id: contact.id, name: contact.name, avatar: contact.avatar});
+            setTimeout(() => startCall(), 300);
+        }
+    }
+
+    function showCallNotification(fromName, fromId) {
+        document.getElementById('callNotificationHeader').textContent = '☎️ Incoming Call';
+        document.getElementById('callNotificationMessage').textContent = `${fromName} is calling...`;
+        document.getElementById('callNotification').classList.remove('hidden');
+        
+        state.pendingCalls['incoming'] = {
+            from: fromId,
+            fromName: fromName
+        };
+    }
+
+    function acceptCall() {
+        const caller = state.pendingCalls['incoming'];
+        if (caller) {
+            const contact = state.users.find(u => u.id === caller.from);
+            if (contact) {
+                selectContact({id: contact.id, name: contact.name, avatar: contact.avatar});
+                setTimeout(() => {
+                    document.getElementById('videoModal').classList.add('active');
+                    state.callActive = true;
+
+                    navigator.mediaDevices.getUserMedia({
+                        audio: true,
+                        video: true
+                    })
+                    .then(stream => {
+                        state.localStream = stream;
+                        document.getElementById('localVideo').srcObject = stream;
+                        document.getElementById('remoteLabel').textContent = caller.fromName;
+                    })
+                    .catch(err => {
+                        alert('Camera/Microphone access denied: ' + err.message);
+                        endCall();
+                    });
+
+                    document.getElementById('callNotification').classList.add('hidden');
+                }, 300);
+            }
+        }
+    }
+
+    function declineCall() {
+        document.getElementById('callNotification').classList.add('hidden');
+        state.pendingCalls['incoming'] = null;
+        alert('Call declined');
+    }
+
+    // ============ UPDATE CONTACTS LIST ============
+    function updateContactsList() {
+        // Get friends (accepted friend requests)
+        const friends = state.users.filter(u => {
+            if (u.id === state.currentUser.id || !u.approved) return false;
+            return state.friendRequests.some(req => 
+                ((req.from === state.currentUser.id && req.to === u.id) ||
+                 (req.from === u.id && req.to === state.currentUser.id)) &&
+                req.status === 'accepted'
+            );
+        });
+
+        document.getElementById('contactsList').innerHTML = friends.length
+            ? friends.map(contact => `
+                <div class="contact-item ${state.selectedContact?.id === contact.id ? 'active' : ''}" 
+                     onclick="selectContact({id: ${contact.id}, name: '${contact.name}', avatar: '${contact.avatar}'})">
+                    <div style="flex: 1;">
+                        <div class="contact-name">${contact.name}</div>
+                        <div class="contact-status">Online</div>
+                    </div>
+                    <button onclick="event.stopPropagation(); initiateCall(${contact.id})" title="Call" 
+                            style="background: var(--primary); color: white; border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 14px;">☎️</button>
+                </div>
+            `).join('')
+            : '<p style="color: rgba(255,255,255,0.5); font-size: 13px; padding: 10px;">No friends yet. Send friend requests!</p>';
+
+        updateFriendRequests();
+    }
+
+    // Update goToChat to use new functions
+    function goToChat() {
+        document.getElementById('authPage').classList.add('hidden');
+        document.getElementById('chatPage').classList.remove('hidden');
+        
+        document.getElementById('userAvatarChat').textContent = state.currentUser.avatar;
+        document.getElementById('chatUserName').textContent = state.currentUser.name;
+        
+        updateContactsList();
+        updateFriendRequests();
+        
+        if (state.users.some(u => u.approved && u.id !== state.currentUser.id)) {
+            const friend = state.users.find(u => u.approved && u.id !== state.currentUser.id);
+            selectContact({id: friend.id, name: friend.name, avatar: friend.avatar});
+        }
     }
 </script>
 
