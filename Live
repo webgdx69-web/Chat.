@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with Friends</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            height: 100vh;
+            background-color: #1e1f22;
+            color: #dbdee1;
+        }
+
+        /* Sidebar for Friends List */
+        .sidebar {
+            width: 260px;
+            background-color: #2b2d31;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #1f2023;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            border-bottom: 1px solid #1f2023;
+            color: #fff;
+        }
+
+        .friends-list {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+        }
+
+        .friend-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .friend-item:hover {
+            background-color: #35373c;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background-color: #23a55a;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        /* Main Chat Area */
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: #313338;
+        }
+
+        .chat-header {
+            padding: 20px;
+            background-color: #313338;
+            font-weight: bold;
+            font-size: 18px;
+            color: #fff;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Chat Bubbles */
+        .message {
+            max-width: 70%;
+            padding: 12px 16px;
+            border-radius: 15px;
+            line-height: 1.4;
+            position: relative;
+        }
+
+        .message.incoming {
+            background-color: #2b2d31;
+            align-self: flex-start;
+            border-bottom-left-radius: 2px;
+        }
+
+        .message.outgoing {
+            background-color: #5865f2;
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 2px;
+        }
+
+        .message .username {
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #b5bac1;
+        }
+        
+        .message.outgoing .username {
+            color: #e3e5e8;
+        }
+
+        /* Chat Input Bar */
+        .chat-input-area {
+            padding: 20px;
+            background-color: #313338;
+        }
+
+        .input-wrapper {
+            display: flex;
+            background-color: #383a40;
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+        .input-wrapper input {
+            flex: 1;
+            background: none;
+            border: none;
+            outline: none;
+            color: #dbdee1;
+            font-size: 16px;
+            padding: 5px 10px;
+        }
+
+        .input-wrapper button {
+            background-color: #5865f2;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .input-wrapper button:hover {
+            background-color: #4752c4;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="sidebar-header">My Friends</div>
+        <div class="friends-list">
+            <div class="friend-item">
+                <div class="status-dot"></div>
+                <span>Ahmad</span>
+            </div>
+            <div class="friend-item">
+                <div class="status-dot"></div>
+                <span>Faisal</span>
+            </div>
+            <div class="friend-item">
+                <div class="status-dot" style="background-color: #80848e;"></div>
+                <span>Sultan (Offline)</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="chat-container">
+        <div class="chat-header"># general-chat</div>
+        
+        <div class="chat-messages" id="chatBox">
+            <div class="message incoming">
+                <div class="username">Ahmad</div>
+                <div>Hey everyone! Welcome to our GitHub chat page.</div>
+            </div>
+            <div class="message outgoing">
+                <div class="username">You</div>
+                <div>Hello! The layout looks complete. Let's test sending a message.</div>
+            </div>
+        </div>
+
+        <div class="chat-input-area">
+            <div class="input-wrapper">
+                <input type="text" id="messageInput" placeholder="Type a message to your friends..." onkeypress="handleKeyPress(event)">
+                <button onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const chatBox = document.getElementById('chatBox');
+            
+            if (input.value.trim() !== "") {
+                // Create a new message container
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message', 'outgoing');
+                
+                // Add username
+                const usernameDiv = document.createElement('div');
+                usernameDiv.classList.add('username');
+                usernameDiv.innerText = 'You';
+                
+                // Add text content
+                const textDiv = document.createElement('div');
+                textDiv.innerText = input.value;
+                
+                // Put it together
+                messageDiv.appendChild(usernameDiv);
+                messageDiv.appendChild(textDiv);
+                chatBox.appendChild(messageDiv);
+                
+                // Clear input field and scroll to bottom
+                input.value = "";
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+        }
+
+        // Allow pressing "Enter" to send a message
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+    </script>
+</body>
+</html>
